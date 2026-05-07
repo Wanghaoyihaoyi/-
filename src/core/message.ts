@@ -17,7 +17,8 @@ export function formatReminderMessage(evaluations: FundEvaluation[], nowText: st
     formatErrors(errors),
     "",
     `建议合计：${totalSuggestedAmount} 元`,
-    "提示：QDII 净值/估值可能延迟，本提醒只做加仓参考，不自动购买。"
+    "交易提示：交易日 15:00 前提交通常按当天申请处理，15:00 后通常顺延到下一交易日；QDII 多数 T+2 确认份额。",
+    "风险提示：QDII 净值/估值可能延迟，本提醒只做加仓参考，不自动购买。"
   ].join("\n");
 }
 

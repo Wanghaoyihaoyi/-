@@ -35,6 +35,8 @@ describe("formatReminderMessage", () => {
     expect(message).toContain("跌幅 -2.30%");
     expect(message).toContain("建议 40 元");
     expect(message).toContain("建议合计：40 元");
+    expect(message).toContain("交易日 15:00 前");
+    expect(message).toContain("QDII 多数 T+2 确认");
   });
 
   test("formats near-trigger funds", () => {
