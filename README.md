@@ -13,6 +13,7 @@
 - 使用 `--dry-run` 打印一条聚合提醒。
 - 可通过本机已有 `cc-connect` 飞书通道发送一条手机提醒。
 - 默认按“定投增强”理解：支付宝自动定投是基础仓位，本工具只计算额外加仓建议。
+- 推送内容会列出每支基金的代码、名称、上涨/下跌方向和涨跌幅。
 
 ### 交易时间判断
 
@@ -67,6 +68,7 @@ It only sends reminders. It does not log in to Alipay, scrape account credential
 - Prints one aggregated reminder with `--dry-run`.
 - Can send one mobile reminder through the existing local `cc-connect` Feishu channel.
 - Defaults to an "auto-invest enhancement" interpretation: Alipay auto-investment is the base position, and this tool only calculates extra-buy suggestions.
+- The pushed message lists every fund's code, name, rise/fall direction, and percentage change.
 
 ### Trading-Time Judgment
 

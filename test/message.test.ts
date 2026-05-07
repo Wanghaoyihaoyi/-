@@ -69,6 +69,37 @@ describe("formatReminderMessage", () => {
     expect(message).toContain("建议合计：0 元");
   });
 
+  test("lists every fund name with its rise or decline", () => {
+    const message = formatReminderMessage(
+      [
+        evaluation({}),
+        evaluation({
+          fund: {
+            code: "270042",
+            name: "广发纳斯达克100ETF联接(QDII)A",
+            planType: "daily",
+            baseAmount: 50,
+            enabled: true
+          },
+          quote: {
+            code: "270042",
+            changePercent: 1.2,
+            dataTime: "2026-05-07 15:00",
+            source: "test"
+          },
+          status: "normal",
+          matchedTier: undefined,
+          suggestedAmount: 0
+        })
+      ],
+      "2026-05-07 16:30"
+    );
+
+    expect(message).toContain("全部基金涨跌：");
+    expect(message).toContain("018043 天弘纳斯达克100指数(QDII)A：下跌 -2.30%");
+    expect(message).toContain("270042 广发纳斯达克100ETF联接(QDII)A：上涨 +1.20%");
+  });
+
   test("formats data errors", () => {
     const message = formatReminderMessage(
       [

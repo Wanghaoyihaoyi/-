@@ -25,6 +25,8 @@ export function formatReminderMessage(
     "",
     formatTriggered(triggered),
     "",
+    formatMovements(evaluations),
+    "",
     formatNear(near),
     "",
     formatErrors(errors),
@@ -36,6 +38,24 @@ export function formatReminderMessage(
   ]
     .filter((line) => line !== undefined)
     .join("\n");
+}
+
+function formatMovements(items: FundEvaluation[]): string {
+  if (items.length === 0) {
+    return "全部基金涨跌：无";
+  }
+
+  return [
+    "全部基金涨跌：",
+    ...items.map((item, index) => {
+      const dataTime = item.quote?.dataTime ?? "未知时间";
+      if (item.status === "error" || !item.quote) {
+        return `${index + 1}. ${item.fund.code} ${item.fund.name}：数据异常，${item.error ?? "unknown error"}`;
+      }
+
+      return `${index + 1}. ${item.fund.code} ${item.fund.name}：${formatDirection(item.quote.changePercent)} ${formatSignedPercent(item.quote.changePercent)}，数据 ${dataTime}`;
+    })
+  ].join("\n");
 }
 
 function formatTriggered(items: FundEvaluation[]): string {
@@ -86,4 +106,21 @@ function formatPercent(value: number | undefined): string {
   }
 
   return `${value.toFixed(2)}%`;
+}
+
+function formatSignedPercent(value: number): string {
+  const sign = value > 0 ? "+" : "";
+  return `${sign}${value.toFixed(2)}%`;
+}
+
+function formatDirection(value: number): string {
+  if (value > 0) {
+    return "上涨";
+  }
+
+  if (value < 0) {
+    return "下跌";
+  }
+
+  return "持平";
 }
