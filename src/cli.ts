@@ -4,6 +4,7 @@ import { loadFunds, loadRules } from "./adapters/config.js";
 import { fetchEastmoneyQuote } from "./adapters/eastmoney.js";
 import { sendFeishuMessage } from "./adapters/feishu.js";
 import { parseCliArgs } from "./core/args.js";
+import { buildTradingHint } from "./core/tradingTime.js";
 
 async function main(): Promise<void> {
   const options = parseCliArgs(process.argv.slice(2));
@@ -20,7 +21,12 @@ async function main(): Promise<void> {
     })
   );
 
-  const message = formatReminderMessage(evaluations, formatNow(new Date()));
+  const now = new Date();
+  const tradingHint = buildTradingHint(now, rules.reminder?.tradingCutoff ?? { cutoffHour: 15, cutoffMinute: 0 });
+  const message = formatReminderMessage(evaluations, formatNow(now), {
+    autoInvestMode: rules.reminder?.autoInvestMode ?? true,
+    tradingHint
+  });
 
   if (!options.shouldSend) {
     console.log(message);

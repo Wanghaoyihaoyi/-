@@ -14,6 +14,13 @@
     }
   ],
   "nearTriggerPercent": -1.8,
+  "reminder": {
+    "autoInvestMode": true,
+    "tradingCutoff": {
+      "cutoffHour": 15,
+      "cutoffMinute": 0
+    }
+  },
   "feishu": {
     "ccConnectPath": "F:/NodeJS_Global/node_modules/cc-connect/bin/cc-connect.exe",
     "dataDir": "F:/work/cc-connect/.cc-connect-claudecode-feishu-data",

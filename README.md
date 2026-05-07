@@ -12,6 +12,7 @@
 - 从 `config/rules.json` 读取单日跌幅分档规则。
 - 使用 `--dry-run` 打印一条聚合提醒。
 - 可通过本机已有 `cc-connect` 飞书通道发送一条手机提醒。
+- 默认按“定投增强”理解：支付宝自动定投是基础仓位，本工具只计算额外加仓建议。
 
 ### 交易时间判断
 
@@ -23,6 +24,14 @@
 - 本项目里的基金大多是 QDII，QDII 多数 T+2 确认份额，部分产品可能按基金合同或销售页面提示调整。
 
 因此，本工具的提醒含义是“可以考虑在交易截止前提交加仓申请”，不是“当天立刻买入并显示份额”。
+
+### 针对自动定投用户的优化空间
+
+- 提醒时间应尽量放在交易日 14:30-14:50，给手动确认留时间。
+- `-2%` 档位适合轻提醒，`-4%` 和 `-6%` 才适合强提醒。
+- 日定投基金已经高频买入，额外加仓应更克制；周定投基金可以更关注大跌日。
+- 后续可以增加“周/月额外加仓上限”，避免连续下跌时提醒金额过大。
+- 后续可以增加“已定投扣款日识别”，如果当天本来就会扣款，则降低额外加仓优先级。
 
 ### 命令
 
@@ -57,6 +66,7 @@ It only sends reminders. It does not log in to Alipay, scrape account credential
 - Reads single-day decline tiers from `config/rules.json`.
 - Prints one aggregated reminder with `--dry-run`.
 - Can send one mobile reminder through the existing local `cc-connect` Feishu channel.
+- Defaults to an "auto-invest enhancement" interpretation: Alipay auto-investment is the base position, and this tool only calculates extra-buy suggestions.
 
 ### Trading-Time Judgment
 
@@ -68,6 +78,14 @@ OTC fund subscriptions do not usually show confirmed shares immediately after cl
 - Most funds in this project are QDII funds. QDII funds are commonly confirmed on T+2, although the final rule depends on each fund contract and the sales page notice.
 
 So this tool means "consider submitting an extra-buy application before the trading cutoff", not "the fund is bought and visible immediately on the same day".
+
+### Optimization For Auto-Invest Users
+
+- Run reminders around 14:30-14:50 on trading days so there is still time for manual confirmation.
+- Treat the `-2%` tier as a light reminder. The `-4%` and `-6%` tiers are better candidates for stronger reminders.
+- Daily auto-invest funds already buy frequently, so extra-buy suggestions should be conservative. Weekly auto-invest funds deserve more attention on sharp down days.
+- A future version can add weekly or monthly extra-buy caps to avoid excessive suggestions during continuous declines.
+- A future version can detect scheduled auto-invest days and lower the priority when the fund is already going to deduct money that day.
 
 ### Commands
 

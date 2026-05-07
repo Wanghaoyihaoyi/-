@@ -16,7 +16,18 @@ export interface DeclineTier {
 export interface RuleConfig {
   tiers: DeclineTier[];
   nearTriggerPercent: number;
+  reminder?: ReminderConfig;
   feishu?: FeishuConfig;
+}
+
+export interface ReminderConfig {
+  autoInvestMode?: boolean;
+  tradingCutoff?: TradingCutoff;
+}
+
+export interface TradingCutoff {
+  cutoffHour: number;
+  cutoffMinute: number;
 }
 
 export interface FeishuConfig {
@@ -42,4 +53,11 @@ export interface FundEvaluation {
   matchedTier?: DeclineTier;
   suggestedAmount: number;
   error?: string;
+}
+
+export type TradingHintStatus = "before-cutoff" | "after-cutoff" | "non-trading-day";
+
+export interface TradingHint {
+  status: TradingHintStatus;
+  message: string;
 }

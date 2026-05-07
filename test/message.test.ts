@@ -26,15 +26,22 @@ function evaluation(partial: Partial<FundEvaluation>): FundEvaluation {
 
 describe("formatReminderMessage", () => {
   test("formats triggered funds and total suggested amount", () => {
-    const message = formatReminderMessage([evaluation({})], "2026-05-07 16:30");
+    const message = formatReminderMessage([evaluation({})], "2026-05-07 14:30", {
+      tradingHint: {
+        status: "before-cutoff",
+        message: "现在仍在交易日 15:00 前，若执行，通常按当天申请处理。"
+      },
+      autoInvestMode: true
+    });
 
-    expect(message).toContain("基金池提醒 2026-05-07 16:30");
+    expect(message).toContain("基金池提醒 2026-05-07 14:30");
     expect(message).toContain("检查基金：1 支");
-    expect(message).toContain("触发买入");
+    expect(message).toContain("自动定投已作为基础仓位");
+    expect(message).toContain("触发额外加仓");
     expect(message).toContain("018043 天弘纳斯达克100指数(QDII)A");
     expect(message).toContain("跌幅 -2.30%");
-    expect(message).toContain("建议 40 元");
-    expect(message).toContain("建议合计：40 元");
+    expect(message).toContain("额外建议 40 元");
+    expect(message).toContain("额外建议合计：40 元");
     expect(message).toContain("交易日 15:00 前");
     expect(message).toContain("QDII 多数 T+2 确认");
   });
@@ -92,7 +99,7 @@ describe("formatReminderMessage", () => {
       "2026-05-07 16:30"
     );
 
-    expect(message).toContain("触发买入：无");
+    expect(message).toContain("触发额外加仓：无");
     expect(message).toContain("接近触发：无");
     expect(message).toContain("数据异常：无");
   });

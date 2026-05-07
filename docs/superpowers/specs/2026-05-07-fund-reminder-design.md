@@ -25,7 +25,9 @@ The code list must be treated as a draft until verified against the user's Alipa
 
 ## Reminder Rule
 
-Use single-day decline as the first version trigger:
+Use single-day decline as the first version trigger.
+
+Because the user already has automatic fixed investments, the reminder is an extra-buy suggestion. It must not imply that the normal fixed investment should be replaced.
 
 | Decline | Suggested Extra Buy |
 | ---: | ---: |
@@ -53,6 +55,17 @@ Message sections:
 Most assets are QDII funds. Net value and estimated value may lag and may not match the final Alipay transaction price.
 
 The first implementation should expose the data timestamp in each reminder so the user can judge staleness.
+
+## Trading-Time Notes
+
+The reminder must show transaction timing clearly:
+
+- Before the 15:00 trading-day cutoff: the user can consider submitting an extra-buy application before the cutoff.
+- After the 15:00 cutoff: a new application usually rolls to the next trading day.
+- On weekends: a new application usually rolls to the next trading day.
+- Ordinary funds are usually T+1 confirmation; QDII funds are commonly T+2 confirmation.
+
+This tool should phrase suggestions as "extra-buy application" or "extra-buy suggestion", not "same-day confirmed buy".
 
 ## First Version Scope
 
