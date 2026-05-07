@@ -3,12 +3,12 @@ import { formatReminderMessage } from "./core/message.js";
 import { loadFunds, loadRules } from "./adapters/config.js";
 import { fetchEastmoneyQuote } from "./adapters/eastmoney.js";
 import { sendFeishuMessage } from "./adapters/feishu.js";
+import { parseCliArgs } from "./core/args.js";
 
 async function main(): Promise<void> {
-  const args = new Set(process.argv.slice(2));
-  const shouldSend = args.has("--send") && !args.has("--dry-run");
+  const options = parseCliArgs(process.argv.slice(2));
 
-  const [funds, rules] = await Promise.all([loadFunds(), loadRules()]);
+  const [funds, rules] = await Promise.all([loadFunds(options.fundsPath), loadRules(options.rulesPath)]);
   const evaluations = await Promise.all(
     funds.map(async (fund) => {
       const result = await fetchEastmoneyQuote(fund.code);
@@ -22,7 +22,7 @@ async function main(): Promise<void> {
 
   const message = formatReminderMessage(evaluations, formatNow(new Date()));
 
-  if (!shouldSend) {
+  if (!options.shouldSend) {
     console.log(message);
     return;
   }

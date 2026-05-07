@@ -22,4 +22,8 @@ npm run start -- --dry-run
 
 ## Feishu Send
 
-Configure `config/rules.json` with the local `cc-connect.exe` path, project, and session before sending without `--dry-run`.
+Keep the real Feishu session key out of Git. Create `config/rules.local.json` from `config/rules.json`, then fill in the local `cc-connect.exe` path, data dir, project, and session.
+
+```powershell
+npm run start -- --send --rules config/rules.local.json
+```

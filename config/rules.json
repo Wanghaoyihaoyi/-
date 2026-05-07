@@ -16,7 +16,8 @@
   "nearTriggerPercent": -1.8,
   "feishu": {
     "ccConnectPath": "F:/NodeJS_Global/node_modules/cc-connect/bin/cc-connect.exe",
-    "dataDir": "F:/work/cc-connect/.cc-connect-feishu-data",
-    "project": "cc-connect-feishu"
+    "dataDir": "F:/work/cc-connect/.cc-connect-claudecode-feishu-data",
+    "project": "cc-connect-claudecode-feishu",
+    "session": "replace-with-local-session-key"
   }
 }
