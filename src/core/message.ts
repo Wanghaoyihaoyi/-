@@ -1,0 +1,72 @@
+import type { FundEvaluation } from "./types.js";
+
+export function formatReminderMessage(evaluations: FundEvaluation[], nowText: string): string {
+  const triggered = evaluations.filter((item) => item.status === "triggered");
+  const near = evaluations.filter((item) => item.status === "near");
+  const errors = evaluations.filter((item) => item.status === "error");
+  const totalSuggestedAmount = triggered.reduce((sum, item) => sum + item.suggestedAmount, 0);
+
+  return [
+    `基金池提醒 ${nowText}`,
+    `检查基金：${evaluations.length} 支`,
+    "",
+    formatTriggered(triggered),
+    "",
+    formatNear(near),
+    "",
+    formatErrors(errors),
+    "",
+    `建议合计：${totalSuggestedAmount} 元`,
+    "提示：QDII 净值/估值可能延迟，本提醒只做加仓参考，不自动购买。"
+  ].join("\n");
+}
+
+function formatTriggered(items: FundEvaluation[]): string {
+  if (items.length === 0) {
+    return "触发买入：无";
+  }
+
+  return [
+    "触发买入：",
+    ...items.map((item, index) => {
+      const change = formatPercent(item.quote?.changePercent);
+      const tier = item.matchedTier ? `${item.matchedTier.multiplier}x` : "-";
+      const dataTime = item.quote?.dataTime ?? "未知时间";
+      return `${index + 1}. ${item.fund.code} ${item.fund.name}：跌幅 ${change}，档位 ${tier}，建议 ${item.suggestedAmount} 元，数据 ${dataTime}`;
+    })
+  ].join("\n");
+}
+
+function formatNear(items: FundEvaluation[]): string {
+  if (items.length === 0) {
+    return "接近触发：无";
+  }
+
+  return [
+    "接近触发：",
+    ...items.map((item, index) => {
+      const change = formatPercent(item.quote?.changePercent);
+      const dataTime = item.quote?.dataTime ?? "未知时间";
+      return `${index + 1}. ${item.fund.code} ${item.fund.name}：跌幅 ${change}，数据 ${dataTime}`;
+    })
+  ].join("\n");
+}
+
+function formatErrors(items: FundEvaluation[]): string {
+  if (items.length === 0) {
+    return "数据异常：无";
+  }
+
+  return [
+    "数据异常：",
+    ...items.map((item, index) => `${index + 1}. ${item.fund.code} ${item.fund.name}：${item.error ?? "unknown error"}`)
+  ].join("\n");
+}
+
+function formatPercent(value: number | undefined): string {
+  if (typeof value !== "number" || Number.isNaN(value)) {
+    return "未知";
+  }
+
+  return `${value.toFixed(2)}%`;
+}

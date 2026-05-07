@@ -1,0 +1,22 @@
+{
+  "tiers": [
+    {
+      "maxChangePercent": -2,
+      "multiplier": 1
+    },
+    {
+      "maxChangePercent": -4,
+      "multiplier": 2
+    },
+    {
+      "maxChangePercent": -6,
+      "multiplier": 3
+    }
+  ],
+  "nearTriggerPercent": -1.8,
+  "feishu": {
+    "ccConnectPath": "F:/NodeJS_Global/node_modules/cc-connect/bin/cc-connect.exe",
+    "dataDir": "F:/work/cc-connect/.cc-connect-feishu-data",
+    "project": "cc-connect-feishu"
+  }
+}
